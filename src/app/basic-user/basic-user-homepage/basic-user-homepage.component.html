@@ -1,1 +1,81 @@
-<p>basic-user-homepage works!</p>
+<h2>My Services</h2>
+<div class="mb-3">
+  <p-button type="button" icon="pi pi-chevron-left" (click)="prev()" [disabled]="isFirstPage()" styleClass="p-button-text"></p-button>
+  <p-button type="button" icon="pi pi-refresh" (click)="reset()" styleClass="p-button-text"></p-button>
+  <p-button type="button" icon="pi pi-chevron-right" (click)="next()" [disabled]="isLastPage()" styleClass="p-button-text"></p-button>
+</div>
+<div class="card">
+  <p-table
+    [value]="services"
+    [paginator]="true"
+    [rows]="5"
+    [showCurrentPageReport]="true"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[10, 25, 50]"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width:33%">Name</th>
+        <th style="width:33%">Cost</th>
+        <th style="width:33%">Description</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-service>
+      <tr>
+        <td>{{ service.name }}</td>
+        <td>€{{ service.cost }}</td>
+        <td>{{ service.description }}</td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="paginatorleft">
+      <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+    </ng-template>
+    <ng-template pTemplate="paginatorright">
+      <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+    </ng-template>
+  </p-table>
+</div>
+
+<h2>My Bookings</h2>
+<div class="mb-3">
+  <p-button type="button" icon="pi pi-chevron-left" (click)="prev()" [disabled]="isFirstPage()" styleClass="p-button-text"></p-button>
+  <p-button type="button" icon="pi pi-refresh" (click)="reset()" styleClass="p-button-text"></p-button>
+  <p-button type="button" icon="pi pi-chevron-right" (click)="next()" [disabled]="isLastPage()" styleClass="p-button-text"></p-button>
+</div>
+<div class="card">
+  <p-table
+    [value]="bookings"
+    [paginator]="true"
+    [rows]="5"
+    [showCurrentPageReport]="true"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[10, 25, 50]"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width:25%">Description</th>
+        <th style="width:25%">Date and time</th>
+        <th style="width:25%">Service</th>
+        <th style="width:25%">Service provider</th>
+
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-booking>
+      <tr>
+        <td>{{ booking.notes }}</td>
+        <td>{{ booking.date_time }}</td>
+        <td>{{ booking.service.name }}</td>
+        <td>{{ booking.service.user.name }}</td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="paginatorleft">
+      <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+    </ng-template>
+    <ng-template pTemplate="paginatorright">
+      <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+    </ng-template>
+  </p-table>
+</div>
+

@@ -14,6 +14,12 @@ import {TableModule} from "primeng/table";
 import {HttpClientModule} from "@angular/common/http";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {Routes} from "./app.routes";
+import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
+import {jwtConfig} from "./security/auth.config";
+import { LoginComponent } from './shared/login/login.component';
+import { RegisterComponent } from './shared/register/register.component';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+
 
 @NgModule({
   declarations: [
@@ -21,17 +27,27 @@ import {Routes} from "./app.routes";
     HomepageComponent,
     NavigationComponent,
     BasicUserHomepageComponent,
-    AdminHomepageComponent
+    AdminHomepageComponent,
+    LoginComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     MenubarModule,
     RouterModule.forRoot(Routes),
+    JwtModule.forRoot({
+      jwtOptionsProvider: {
+        provide: JWT_OPTIONS,
+        useValue: jwtConfig
+      }
+    }),
     InputTextModule,
     ButtonModule,
     TableModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
