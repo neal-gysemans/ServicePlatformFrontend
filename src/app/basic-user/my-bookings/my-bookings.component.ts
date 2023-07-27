@@ -6,27 +6,17 @@ import {AuthService} from "../../security/auth.service";
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-basic-user-homepage',
-  templateUrl: './basic-user-homepage.component.html',
-  styleUrls: ['./basic-user-homepage.component.css']
+  selector: 'app-my-bookings',
+  templateUrl: './my-bookings.component.html',
+  styleUrls: ['./my-bookings.component.css']
 })
-export class BasicUserHomepageComponent implements OnInit {
-  services: ApplicationServiceAndUserResponse[] = [];
+export class MyBookingsComponent implements OnInit {
   bookings: BookingReponse[] = [];
 
   constructor(private userService: BasicUserService, private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    this.fetchServices();
     this.fetchBookings();
-  }
-
-  // Function to fetch services data
-  fetchServices(): void {
-    // Replace 'getServices()' with the actual method in your service to get the services data
-    this.userService.getServices().subscribe((services) => {
-      this.services = services;
-    });
   }
 
   // Function to fetch bookings data
@@ -66,3 +56,4 @@ export class BasicUserHomepageComponent implements OnInit {
   }
 
 }
+

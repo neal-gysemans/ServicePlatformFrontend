@@ -20,15 +20,21 @@ export class LoginComponent {
       () => {
         const accessToken = localStorage.getItem('access_token');
 
-        console.log('Access Token:', accessToken);
-        this.router.navigate(['/basic_user/']); // Replace 'success-page' with the desired route
+        const role = this.authService.getUserRoleFromStorage();
 
-        // Login successful, you can redirect to the desired page or handle it as needed.
-        console.log('Login successful');
+        console.log('Access Token:', accessToken);
+
+        // Redirect the user based on their role
+        if (role === 'ADMIN') {
+          this.router.navigate(['/admin']); // Redirect to the admin dashboard
+        } else if (role === 'USER') {
+          this.router.navigate(['/basic_user']); // Redirect to the user dashboard
+        }
       },
       (error) => {
-        // Handle login error here
-        console.error('Login error:', error);
+        // Handle login error
+        console.log(error)
+        console.log("Login failed")
       }
     );
   }

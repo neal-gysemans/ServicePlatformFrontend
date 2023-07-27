@@ -1,13 +1,13 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { ApplicationServiceAndUserResponse } from "../../dto/ApplicationServiceAndUserResponse";
-import { GuestService } from "../guest.service";
+import { GuestService } from "../../services/guest.service";
 
 @Component({
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
   styleUrls: ['./homepage.component.css']
 })
-export class HomepageComponent {
+export class HomepageComponent implements OnInit{
   services: ApplicationServiceAndUserResponse[] = [];
 
   first = 0;

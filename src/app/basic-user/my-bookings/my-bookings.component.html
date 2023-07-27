@@ -1,38 +1,4 @@
 <div class="centered-container">
-  <h2>My Services</h2>
-  <div class="card">
-    <p-table
-      [value]="services"
-      [paginator]="true"
-      [rows]="5"
-      [showCurrentPageReport]="true"
-      [tableStyle]="{ 'min-width': '50rem' }"
-      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-      [rowsPerPageOptions]="[10, 25, 50]"
-    >
-      <ng-template pTemplate="header">
-        <tr>
-          <th style="width:33%">Name</th>
-          <th style="width:33%">Cost</th>
-          <th style="width:33%">Description</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-service>
-        <tr>
-          <td>{{ service.name }}</td>
-          <td>€{{ service.cost }}</td>
-          <td>{{ service.description }}</td>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="paginatorleft">
-        <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
-      </ng-template>
-      <ng-template pTemplate="paginatorright">
-        <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
-      </ng-template>
-    </p-table>
-  </div>
-
   <h2>My Bookings</h2>
   <div class="card">
     <p-table

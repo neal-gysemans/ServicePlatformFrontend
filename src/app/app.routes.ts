@@ -4,11 +4,12 @@ import {userRoutes} from "./basic-user/basic_user.routes";
 import {adminRoutes} from "./admin/admin.routes";
 import {RegisterComponent} from "./shared/register/register.component";
 import {LoginComponent} from "./shared/login/login.component";
+import {AuthGuard} from "./auth.guard";
 
 export const Routes: Route[] = [
   { path: "guest", children: guestRoutes},
-  { path: "basic_user", children: userRoutes },
-  { path: "admin", children: adminRoutes },
+  { path: "basic_user", children: userRoutes, canActivate: [AuthGuard], data: { 'role': 'USER' }},
+  { path: "admin", children: adminRoutes, canActivate: [AuthGuard], data: { 'role': 'ADMIN' }},
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
 

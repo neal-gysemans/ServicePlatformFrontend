@@ -6,3 +6,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.centered-container {
+  /* Center the container in the middle of the page */
+  justify-content: center;
+  align-items: center;
+  /* Set some margins to create spacing around the container */
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  margin-left: auto;
+  margin-right: auto;
+  /* Optionally, you can set a maximum width for the container to control its size */
+  max-width: 1000px; /* Adjust the value to your preference */
+  /* Add some padding inside the container, if desired */
+  padding: 1rem;
+  /* Add a box shadow to give the container some depth */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

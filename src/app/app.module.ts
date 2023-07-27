@@ -11,7 +11,7 @@ import { BasicUserHomepageComponent } from './basic-user/basic-user-homepage/bas
 import { AdminHomepageComponent } from './admin/admin-homepage/admin-homepage.component';
 import {ButtonModule} from "primeng/button";
 import {TableModule} from "primeng/table";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {Routes} from "./app.routes";
 import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
@@ -19,6 +19,9 @@ import {jwtConfig} from "./security/auth.config";
 import { LoginComponent } from './shared/login/login.component';
 import { RegisterComponent } from './shared/register/register.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {AuthInterceptor} from "./security/auth-interceptor";
+import { MyServicesComponent } from './basic-user/my-services/my-services.component';
+import { MyBookingsComponent } from './basic-user/my-bookings/my-bookings.component';
 
 
 @NgModule({
@@ -30,6 +33,8 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     AdminHomepageComponent,
     LoginComponent,
     RegisterComponent,
+    MyServicesComponent,
+    MyBookingsComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,7 +54,13 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
