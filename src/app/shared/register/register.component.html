@@ -1,0 +1,26 @@
+<form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+<div class="card">
+  <div class="p-inputgroup">
+    <span class="p-inputgroup-addon">
+      <i class="pi pi-envelope"></i>
+    </span>
+    <input pInputText type="email" placeholder="Email" [(ngModel)]="user.email" name="email" required />
+  </div>
+
+  <div class="p-inputgroup">
+    <span class="p-inputgroup-addon">
+      <i class="pi pi-user"></i>
+    </span>
+    <input pInputText type="text" placeholder="Name" [(ngModel)]="user.name" name="name" required />
+  </div>
+
+  <div class="p-inputgroup">
+    <span class="p-inputgroup-addon">
+      <i class="pi pi-lock"></i>
+    </span>
+    <input pInputText pPassword type="password" placeholder="Password" [(ngModel)]="user.password" name="password" required />
+  </div>
+
+  <button pButton type="submit" label="Register" class="p-button-success"></button>
+</div>
+</form>
