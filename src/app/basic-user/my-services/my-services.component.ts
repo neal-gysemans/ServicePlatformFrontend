@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {ApplicationServiceAndUserResponse} from "../../dto/ApplicationServiceAndUserResponse";
-import {BookingReponse} from "../../dto/BookingReponse";
+import {NewApplicationServiceCommand} from "../../dto/NewApplicationServiceCommand";
 import {BasicUserService} from "../../services/basic-user.service";
 import {AuthService} from "../../security/auth.service";
 import {Router} from "@angular/router";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-my-services',
@@ -13,7 +14,21 @@ import {Router} from "@angular/router";
 export class MyServicesComponent implements OnInit {
   services: ApplicationServiceAndUserResponse[] = [];
 
-  constructor(private userService: BasicUserService, private authService: AuthService, private router: Router) {}
+  newServiceForm: FormGroup;
+  newService: NewApplicationServiceCommand = {
+    name: '',
+    description: '',
+    cost: ''
+  };
+
+  constructor(private userService: BasicUserService, private authService: AuthService, private router: Router,
+              private formBuilder: FormBuilder) {
+    this.newServiceForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      description: ['', Validators.required],
+      cost: ['', Validators.required]
+    });
+  }
 
   ngOnInit(): void {
     this.fetchServices();
@@ -27,11 +42,32 @@ export class MyServicesComponent implements OnInit {
     });
   }
 
-  logout(): void {
-    this.authService.logout(); // Call the logout method from AuthService
-    this.router.navigate(["/login"]);
-  }
+  onSubmit(): void {
+    console.log('I submit');
+    if (this.newServiceForm.valid) {
+      // Assign the form values to the newService object
+      this.newService = {
+        name: this.newServiceForm.get('name')?.value,
+        description: this.newServiceForm.get('description')?.value,
+        cost: this.newServiceForm.get('cost')?.value
+      };
 
+      // Call the service to create the new service
+      this.userService.createService(this.newService).subscribe(
+        (createdService) => {
+          console.log('Service created successfully:', createdService);
+          // Optionally, you can handle success cases here
+        },
+        (error) => {
+          console.error('Failed to create service:', error);
+          // Optionally, you can handle error cases here
+        }
+      );
+
+      // Reset the form or perform any other actions after submitting
+      this.newServiceForm.reset();
+    }
+  }
   // Pagination logic (assuming you have already implemented the pagination methods)
   prev(): void {
     // Logic for moving to the previous page

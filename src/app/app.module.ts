@@ -22,6 +22,8 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AuthInterceptor} from "./security/auth-interceptor";
 import { MyServicesComponent } from './basic-user/my-services/my-services.component';
 import { MyBookingsComponent } from './basic-user/my-bookings/my-bookings.component';
+import {DialogModule} from "primeng/dialog";
+import { AllServicesComponent } from './basic-user/all-services/all-services.component';
 
 
 @NgModule({
@@ -35,25 +37,27 @@ import { MyBookingsComponent } from './basic-user/my-bookings/my-bookings.compon
     RegisterComponent,
     MyServicesComponent,
     MyBookingsComponent,
+    AllServicesComponent,
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    MenubarModule,
-    RouterModule.forRoot(Routes),
-    JwtModule.forRoot({
-      jwtOptionsProvider: {
-        provide: JWT_OPTIONS,
-        useValue: jwtConfig
-      }
-    }),
-    InputTextModule,
-    ButtonModule,
-    TableModule,
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule
-  ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        MenubarModule,
+        RouterModule.forRoot(Routes),
+        JwtModule.forRoot({
+            jwtOptionsProvider: {
+                provide: JWT_OPTIONS,
+                useValue: jwtConfig
+            }
+        }),
+        InputTextModule,
+        ButtonModule,
+        TableModule,
+        HttpClientModule,
+        FormsModule,
+        ReactiveFormsModule,
+        DialogModule
+    ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

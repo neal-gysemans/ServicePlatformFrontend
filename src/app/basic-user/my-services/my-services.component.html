@@ -1,5 +1,31 @@
 <div class="centered-container">
-  <h2>My Services</h2>
+  <h1>Add a new service:</h1>
+  <form [formGroup]="newServiceForm" (ngSubmit)="onSubmit()">
+    <div class="p-fluid">
+    <span class="p-float-label">
+      <input type="text" id="name" pInputText formControlName="name" required>
+      <label for="name">Name</label>
+    </span>
+
+      <span class="p-float-label">
+      <input type="text" id="description" pInputText formControlName="description" required>
+      <label for="description">Description</label>
+    </span>
+
+      <span class="p-float-label">
+      <input type="text" id="cost" pInputText formControlName="cost" required>
+      <label for="cost">Cost</label>
+    </span>
+    </div>
+    <div class="p-footer">
+      <button type="button" pButton label="Create" [disabled]="!newServiceForm.valid" class="p-button-success"
+              (click)="onSubmit()"></button>
+    </div>
+  </form>
+
+  <br>
+  <hr>
+  <h1>My Services</h1>
   <div class="card">
     <p-table
       [value]="services"
