@@ -1,23 +1,36 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {ApplicationServiceAndUserResponse} from "../dto/ApplicationServiceAndUserResponse";
 import {environment} from "../shared/environment";
 import {BookingReponse} from "../dto/BookingReponse";
-import {jwtConfig} from "../security/auth.config";
+import {NewApplicationServiceCommand} from "../dto/NewApplicationServiceCommand";
 
 @Injectable({
   providedIn: 'root'
 })
 export class BasicUserService {
 
-  constructor(private readonly http: HttpClient) { }
+  constructor(private readonly http: HttpClient) {
+  }
 
-  getServices(): Observable<ApplicationServiceAndUserResponse[]>{
+  getServices(): Observable<ApplicationServiceAndUserResponse[]> {
     return this.http.get<ApplicationServiceAndUserResponse[]>(`${environment.apiUrl}/application-service/personal`)
   }
 
-  getBookings(): Observable<BookingReponse[]>{
+  getAllServices(): Observable<ApplicationServiceAndUserResponse[]> {
+    return this.http.get<ApplicationServiceAndUserResponse[]>(`${environment.apiUrl}/application-service/all`)
+  }
+
+  getBookings(): Observable<BookingReponse[]> {
     return this.http.get<BookingReponse[]>(`${environment.apiUrl}/booking/personal`)
+  }
+
+  createService(newService: NewApplicationServiceCommand): Observable<ApplicationServiceAndUserResponse> {
+    return this.http.post<ApplicationServiceAndUserResponse>(`${environment.apiUrl}/application-service/create`, newService)
+  }
+
+  createBooking(serviceId: number): Observable<BookingReponse> {
+    return this.http.post<BookingReponse>(`${environment.apiUrl}/booking/create/${serviceId}`, {});
   }
 }
