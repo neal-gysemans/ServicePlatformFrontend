@@ -1,0 +1,40 @@
+/* booking-form.component.css */
+:host {
+  display: block;
+  width: 100%;
+}
+
+.p-dialog-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.p-dialog-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.p-inputgroup {
+  width: 100%; /* Make sure the input group takes up the entire width */
+  margin-bottom: 1rem;
+}
+
+textarea {
+  width: 100%;
+  resize: vertical;
+}
+
+/* Adjust the width of the p-calendar container */
+.p-calendar .p-calendar-container {
+  width: 100%; /* Set the width to take up the entire available space */
+}
+
+/* Adjust the width of the p-calendar itself */
+.p-calendar .p-inputtext {
+  width: 100%; /* Set the width of the p-calendar input to take up the entire available space */
+}

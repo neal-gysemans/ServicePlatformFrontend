@@ -26,8 +26,6 @@ export class AdminHomepageComponent implements OnInit {
       this.services = services.sort((a, b) => {
         return a.serviceProvider.name.localeCompare(b.serviceProvider.name);
       });
-
-      console.log(this.services);
     });
   }
 

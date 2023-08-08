@@ -4,6 +4,6 @@ export interface ApplicationServiceAndUserResponse {
   id: bigint;
   name: string;
   description: string;
-  cost: string;
+  cost: number;
   serviceProvider: UserResponse;
 }

@@ -1,0 +1,20 @@
+<div class="p-dialog-title">
+  Book Service
+</div>
+<div class="p-dialog-content">
+  <form [formGroup]="bookingForm" (ngSubmit)="confirmBooking()">
+    <div class="p-inputgroup">
+      <span class="p-inputgroup-addon">
+        <i class="pi pi-book"></i>
+      </span>
+      <textarea pInputTextarea rows="8" formControlName="notes" placeholder="Enter your notes"></textarea>
+    </div>
+    <div class="p-inputgroup">
+      <span class="p-inputgroup-addon">
+        <i class="pi pi-calendar"></i>
+      </span>
+      <p-calendar formControlName="date_time" [showTime]="true" placeholder="Select date and time"></p-calendar>
+    </div>
+    <button pButton type="submit" label="Book" class="p-button-success"></button>
+  </form>
+</div>

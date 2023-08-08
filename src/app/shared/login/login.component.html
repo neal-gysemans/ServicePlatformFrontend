@@ -1,19 +1,22 @@
-<form (ngSubmit)="onSubmit()" #loginForm="ngForm">
-  <div class="card">
-  <div class="p-inputgroup">
+<div class="centered-container">
+  <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+    <div class="card">
+      <div class="p-inputgroup">
     <span class="p-inputgroup-addon">
       <i class="pi pi-envelope"></i>
     </span>
-    <input pInputText type="email" placeholder="Email" [(ngModel)]="credentials.email" name="email" required />
-  </div>
+        <input pInputText type="email" placeholder="Email" [(ngModel)]="credentials.email" name="email" required/>
+      </div>
 
-  <div class="p-inputgroup">
+      <div class="p-inputgroup">
     <span class="p-inputgroup-addon">
       <i class="pi pi-lock"></i>
     </span>
-    <input pInputText pPassword type="password" placeholder="Password" [(ngModel)]="credentials.password" name="password" required />
-  </div>
+        <input pInputText pPassword type="password" placeholder="Password" [(ngModel)]="credentials.password"
+               name="password" required/>
+      </div>
 
-  <button pButton type="submit" label="Login" class="p-button-success"></button>
+      <button pButton type="submit" label="Login" class="p-button-success"></button>
+    </div>
+  </form>
 </div>
-</form>
