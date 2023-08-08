@@ -75,6 +75,18 @@
         <li *ngIf="isAdminUser">
           <a
             (click)="onHamburgerItemClick()"
+            routerLink="/admin/user-management"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            class="block py-2 pr-4 pl-3 rounded"
+          >
+            Manage users
+          </a>
+        </li>
+
+        <li *ngIf="isAdminUser">
+          <a
+            (click)="onHamburgerItemClick()"
             routerLink="/admin"
             routerLinkActive="active"
             [routerLinkActiveOptions]="{ exact: true }"

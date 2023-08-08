@@ -1,22 +1,55 @@
-<div class="mb-3">
-  <p-button type="button" icon="pi pi-chevron-left" (click)="prev()" [disabled]="isFirstPage()" styleClass="p-button-text"></p-button>
-  <p-button type="button" icon="pi pi-refresh" (click)="reset()" styleClass="p-button-text"></p-button>
-  <p-button type="button" icon="pi pi-chevron-right" (click)="next()" [disabled]="isLastPage()" styleClass="p-button-text"></p-button>
-</div>
+<p-dialog header="Book a service" [(visible)]="showModal"
+          [style]="{width: '50vw', height: '70vh'}" [draggable]="false"
+          [modal]="true">
+
+  <div class="formSizeNote" class="center-content">
+    <div class="service-info">
+      <h3>Service Information</h3>
+      <p><strong>Name:</strong> {{ serviceInfo.name }}</p>
+      <p><strong>Service Provider:</strong> {{ serviceInfo.serviceProvider }}</p>
+      <p><strong>Cost:</strong> {{ serviceInfo.cost | currency: 'EUR' }}</p>
+    </div>
+    <form [formGroup]="newBooking" (ngSubmit)="onSubmit()">
+      <span class="p-float-label">
+        <textarea id="notes" pInputTextarea formControlName="notes"></textarea>
+        <label for="notes"><span>Note content</span></label>
+      </span>
+      <span class="p-float-label">
+        <p-calendar appendTo="body"
+          id="dateTimePicker" formControlName="date_time" [showTime]="true"></p-calendar>
+        <label for="dateTimePicker">Date and Time</label>
+      </span>
+      <button pButton type="submit" [disabled]="newBooking.invalid" class="submit-button">
+        Submit booking
+      </button>
+    </form>
+  </div>
+</p-dialog>
+
 <div class="card">
   <p-table
+    #dt
     [value]="services"
     [paginator]="true"
     [rows]="5"
     [showCurrentPageReport]="true"
     [tableStyle]="{ 'min-width': '50rem' }"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    [rowsPerPageOptions]="[10, 25, 50]"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} services"
+    [globalFilterFields]="['name', 'cost', 'description', 'serviceProvider.name']"
+    [rowsPerPageOptions]="[10, 15, 20]"
   >
+    <ng-template pTemplate="caption">
+      <div class="flex">
+        <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Search keyword" />
+                </span>
+      </div>
+    </ng-template>
     <ng-template pTemplate="header">
       <tr>
-        <th style="width:20%">Name</th>
-        <th style="width:20%">Cost</th>
+        <th pSortableColumn="name" style="width:20%">Name <p-sortIcon field="name"></p-sortIcon></th>
+        <th pSortableColumn="cost" style="width:20%">Cost <p-sortIcon field="cost"></p-sortIcon></th>
         <th style="width:20%">Description</th>
         <th style="width:20%">Provider</th>
         <th style="width:20%">Actions</th>
@@ -25,13 +58,13 @@
     <ng-template pTemplate="body" let-service>
       <tr>
         <td>{{ service.name }}</td>
-        <td>€{{ service.cost }}</td>
+        <td>{{ service.cost | currency: 'EUR'}}</td>
         <td>{{ service.description }}</td>
         <td>{{ service.serviceProvider.name }} ({{ service.serviceProvider.email }})</td>
         <td class="px-4 py-2">
           <button pButton type="button" icon="pi pi-calendar"
                   class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded"
-                  (click)="bookService(service.id)">
+                  (click)="showDialog(service)">
             Book
           </button>
         </td>

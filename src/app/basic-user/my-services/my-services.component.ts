@@ -18,7 +18,7 @@ export class MyServicesComponent implements OnInit {
   newService: NewApplicationServiceCommand = {
     name: '',
     description: '',
-    cost: ''
+    cost: 0
   };
 
   constructor(private userService: BasicUserService, private authService: AuthService, private router: Router,

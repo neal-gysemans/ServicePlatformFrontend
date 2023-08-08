@@ -5,6 +5,7 @@ import {ApplicationServiceAndUserResponse} from "../dto/ApplicationServiceAndUse
 import {environment} from "../shared/environment";
 import {BookingReponse} from "../dto/BookingReponse";
 import {NewApplicationServiceCommand} from "../dto/NewApplicationServiceCommand";
+import {NewBookingCommand} from "../dto/NewBookingCommand";
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +31,9 @@ export class BasicUserService {
     return this.http.post<ApplicationServiceAndUserResponse>(`${environment.apiUrl}/application-service/create`, newService)
   }
 
-  createBooking(serviceId: number): Observable<BookingReponse> {
-    return this.http.post<BookingReponse>(`${environment.apiUrl}/booking/create/${serviceId}`, {});
+  createBooking(newBookingCommand: NewBookingCommand): Observable<BookingReponse> {
+    console.log("userService engaged");
+    console.log(newBookingCommand);
+    return this.http.post<BookingReponse>(`${environment.apiUrl}/booking/create`, newBookingCommand);
   }
 }
