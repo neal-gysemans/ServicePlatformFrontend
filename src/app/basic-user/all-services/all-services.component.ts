@@ -1,9 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ApplicationServiceAndUserResponse} from "../../dto/ApplicationServiceAndUserResponse";
 import {BasicUserService} from "../../services/basic-user.service";
-import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
 import {NewBookingCommand} from "../../dto/NewBookingCommand";
-import {BookingFormComponent} from "../booking-form/booking-form.component";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
@@ -26,17 +24,14 @@ export class AllServicesComponent implements OnInit {
 
   newBookingCommand = {} as NewBookingCommand;
 
-
-  dialogRef: DynamicDialogRef | null = null;
-
   first = 0;
 
   rows = 10;
 
   constructor(private userService: BasicUserService) {
     this.newBooking = new FormGroup({
-        notes: new FormControl('', [Validators.maxLength(500)]),
-        date_time: new FormControl(new Date())
+      notes: new FormControl('', [Validators.maxLength(500)]),
+      date_time: new FormControl(new Date())
     })
   }
 
@@ -47,8 +42,6 @@ export class AllServicesComponent implements OnInit {
   onSubmit() {
     this.newBookingCommand.notes = this.newBooking.value.notes;
     this.newBookingCommand.date_time = this.newBooking.value.date_time;
-
-    console.log("the dto that i send:)", this.newBookingCommand);
 
     // Call the service to create the new booking
     this.userService.createBooking(this.newBookingCommand).subscribe(

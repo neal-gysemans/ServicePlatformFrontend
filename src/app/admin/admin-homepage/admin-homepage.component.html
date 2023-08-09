@@ -1,3 +1,27 @@
+<p-dialog header="Manage this service" [(visible)]="showModal"
+          [style]="{width: '50vw', height: '70vh'}" [draggable]="false"
+          [modal]="true">
+
+  <div class="formSizeNote" class="center-content">
+    <form [formGroup]="serviceForm" (ngSubmit)="onSubmit()">
+      <span class="p-float-label">
+        <input id="name" pInputText formControlName="name"/>
+        <label for="name"><span>Name</span></label>
+      </span>
+      <span class="p-float-label">
+        <input id="cost" pInputText formControlName="cost"/>
+        <label for="cost"><span>Cost</span></label>
+      </span>
+      <span class="p-float-label">
+        <p>Description</p>
+        <textarea id="description" pInputTextarea formControlName="description"></textarea>
+      </span>
+      <button pButton type="submit" [disabled]="serviceForm.invalid" class="submit-button">
+        Submit
+      </button>
+    </form>
+  </div>
+</p-dialog>
 <div class="centered-container">
   <div class="card">
     <p-table
@@ -11,7 +35,7 @@
     >
       <ng-template pTemplate="caption">
         <tr>
-          All services
+          Manage Services
         </tr>
       </ng-template>
       <ng-template pTemplate="header">
@@ -34,6 +58,11 @@
                     class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
                     (click)="deleteService(service.id)">
               Delete
+            </button>
+            <button pButton type="button" icon="pi pi-pencil"
+                    class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded"
+                    (click)="showEditServiceDialog(service)">
+              Edit
             </button>
           </td>
 
