@@ -25,13 +25,14 @@
     </form>
   </div>
 </p-dialog>
+<div class="centered-container">
 
 <div class="card">
   <p-table
     #dt
     [value]="services"
     [paginator]="true"
-    [rows]="5"
+    [rows]="10"
     [showCurrentPageReport]="true"
     [tableStyle]="{ 'min-width': '50rem' }"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} services"
@@ -77,4 +78,5 @@
       <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
     </ng-template>
   </p-table>
+</div>
 </div>

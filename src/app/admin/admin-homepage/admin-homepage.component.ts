@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthService} from "../../security/auth.service";
-import {Router} from "@angular/router";
 import {ApplicationServiceAndUserResponse} from "../../dto/ApplicationServiceAndUserResponse";
 import {AdminService} from "../../services/admin.service";
 import {HttpResponse} from "@angular/common/http";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {UpdateServiceCommand} from "../../dto/UpdateServiceCommand";
 
 @Component({
   selector: 'app-admin-homepage',
@@ -13,7 +13,20 @@ import {HttpResponse} from "@angular/common/http";
 export class AdminHomepageComponent implements OnInit {
   services: ApplicationServiceAndUserResponse[] = [];
 
-  constructor(private adminService: AdminService, private authService: AuthService, private router: Router) {
+  // edit a service
+  updateService = {} as UpdateServiceCommand;
+
+  serviceForm: FormGroup;
+  showModal!: boolean;
+
+
+  constructor(private adminService: AdminService, private formBuilder: FormBuilder) {
+    this.serviceForm = this.formBuilder.group({
+      id: [-1],
+      name: ['', Validators.required],
+      cost: [0, Validators.min(0)],
+      description: ['']
+    });
   }
 
   ngOnInit(): void {
@@ -46,10 +59,58 @@ export class AdminHomepageComponent implements OnInit {
     );
   }
 
-  logout(): void {
-    this.authService.logout(); // Call the logout method from AuthService
-    this.router.navigate(["/login"]);
+  onSubmit() {
+    this.updateService.id = this.serviceForm.value.id;
+    this.updateService.name = this.serviceForm.value.name;
+    this.updateService.cost = this.serviceForm.value.cost;
+    this.updateService.description = this.serviceForm.value.description;
+
+    // Store a reference to the old service before updating
+    const oldService = this.services.find(service => service.id === this.updateService.id);
+
+    // Call the service to edit the service
+    this.adminService.editService(this.updateService).subscribe(
+      (editedService) => {
+        // Find the index of the updated service in the services array
+        const index = this.services.findIndex(service => service.id === editedService.id);
+
+        if (index !== -1) {
+          // Update the services array with the edited service
+          this.services[index] = editedService;
+        }
+
+        // Optionally, you can handle success cases here
+      },
+      (error) => {
+        console.error('Failed to edit service:', error);
+        // Revert to the old service in case of error
+        if (oldService) {
+          const index = this.services.findIndex(service => service.id === oldService.id);
+          if (index !== -1) {
+            this.services[index] = oldService;
+          }
+        }
+        // Optionally, you can handle error cases here
+      }
+    );
+    this.clearForm();
   }
+
+  clearForm() {
+    this.showModal = false;
+    this.serviceForm.reset();
+  }
+
+  showEditServiceDialog(service: any) {
+    this.serviceForm.setValue({
+      id: service.id,
+      name: service.name,
+      cost: service.cost,
+      description: service.description
+    })
+    this.showModal = true;
+  }
+
 
   // Pagination logic (assuming you have already implemented the pagination methods)
   prev(): void {

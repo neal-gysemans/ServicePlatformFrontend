@@ -1,1 +1,49 @@
-<p>user-management works!</p>
+<div class="centered-container">
+  <div class="card">
+    <p-table
+      [value]="users"
+      [paginator]="true"
+      [rows]="10"
+      [showCurrentPageReport]="true"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} Users"
+      [rowsPerPageOptions]="[10, 25, 50]"
+    >
+      <ng-template pTemplate="caption">
+        <tr>
+          User Management
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn style="width:30%">Name <p-sortIcon field="name"></p-sortIcon></th>
+          <th style="width:30%">Email</th>
+          <th pSortableColumn style="width:30%">Status <p-sortIcon field="status"></p-sortIcon></th>
+          <th style="width:10%">Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-user>
+        <tr>
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td>
+            {{ user.active ? 'Active' : 'Not Active' }}
+          </td>
+          <td class="px-4 py-2">
+            <button pButton type="button" [ngClass]="{ 'bg-red-500 hover:bg-red-600': user.active, 'bg-green-500 hover:bg-green-600': !user.active }"
+                    class="text-white px-3 py-1 rounded" (click)="toggleUserActive(user.id)">
+              {{ user.active ? 'Deactivate' : 'Activate' }}
+            </button>
+          </td>
+
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="paginatorleft">
+        <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+      </ng-template>
+      <ng-template pTemplate="paginatorright">
+        <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+.submit-button {
+  background-color: #007bff; /* Set your desired background color */
+  color: white; /* Set your desired text color */
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:disabled {
+  background-color: #ccc; /* Set the disabled state background color */
+  cursor: not-allowed;
+}
+
+form span {
+  margin-top: 2rem;
+}
+
+textarea {
+  resize: vertical;
+  height: 6rem;
+  border: 1px solid #ccc;
+}
+
