@@ -25,6 +25,7 @@
 <div class="centered-container">
   <div class="card">
     <p-table
+      styleClass="p-datatable-gridlines"
       [value]="services"
       [paginator]="true"
       [rows]="10"
@@ -34,9 +35,9 @@
       [rowsPerPageOptions]="[10, 25, 50]"
     >
       <ng-template pTemplate="caption">
-        <tr>
+        <div class="table-title">
           Manage Services
-        </tr>
+        </div>
       </ng-template>
       <ng-template pTemplate="header">
         <tr>
@@ -54,16 +55,18 @@
           <td>€{{ service.cost }}</td>
           <td>{{ service.description }}</td>
           <td class="px-4 py-2">
-            <button pButton type="button" icon="pi pi-trash"
-                    class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
-                    (click)="deleteService(service.id)">
-              Delete
+            <div class="flex">
+            <button pButton type="button"
+                    class="deleteButton"
+                    (click)="confirm(service)">
+              <i class="pi pi-trash"></i>Delete
             </button>
-            <button pButton type="button" icon="pi pi-pencil"
-                    class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded"
+            <button pButton type="button"
+                    class="editButton"
                     (click)="showEditServiceDialog(service)">
-              Edit
+              <i class="pi pi-pencil"></i>Edit
             </button>
+            </div>
           </td>
 
         </tr>
@@ -77,3 +80,14 @@
     </p-table>
   </div>
 </div>
+
+<p-toast position="bottom-left"></p-toast>
+<p-confirmDialog #cd [style]="{width: '50vw'}">
+  <ng-template pTemplate="header">
+    <h3>Delete Service</h3>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button type="button" class="editButton" pButton icon="pi pi-times" label="No" (click)="cd.reject()"></button>
+    <button type="button" class="deleteButton" pButton icon="pi pi-check" label="Yes" (click)="cd.accept()"></button>
+  </ng-template>
+</p-confirmDialog>

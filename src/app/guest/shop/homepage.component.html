@@ -1,0 +1,55 @@
+<div class="centered-container">
+
+  <div class="card">
+    <p-table
+      styleClass="p-datatable-gridlines"
+
+      #dt
+      [value]="services"
+      [paginator]="true"
+      [rows]="10"
+      [showCurrentPageReport]="true"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} services"
+      [globalFilterFields]="['name', 'cost', 'description', 'serviceProvider.name']"
+      [rowsPerPageOptions]="[10, 15, 20]"
+    >
+      <ng-template pTemplate="caption">
+        <div class="flex">
+          <p class="table-title" >Shop</p>
+        <span class="p-input-icon-left ml-auto">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                           placeholder="Search keyword"/>
+                </span>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="name" style="width:25%">Name
+            <p-sortIcon field="name"></p-sortIcon>
+          </th>
+          <th pSortableColumn="cost" style="width:25%">Cost
+            <p-sortIcon field="cost"></p-sortIcon>
+          </th>
+          <th style="width:25%">Description</th>
+          <th style="width:25%">Provider</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-service>
+        <tr>
+          <td>{{ service.name }}</td>
+          <td>{{ service.cost | currency: 'EUR'}}</td>
+          <td>{{ service.description }}</td>
+          <td>{{ service.serviceProvider.name }} ({{ service.serviceProvider.email }})</td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="paginatorleft">
+        <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+      </ng-template>
+      <ng-template pTemplate="paginatorright">
+        <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

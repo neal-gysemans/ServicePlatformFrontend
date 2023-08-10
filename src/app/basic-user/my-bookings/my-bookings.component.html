@@ -1,21 +1,28 @@
 <div class="centered-container">
-  <h2>My Bookings</h2>
   <div class="card">
     <p-table
+      styleClass="p-datatable-gridlines"
+
       [value]="bookings"
       [paginator]="true"
-      [rows]="5"
+      [rows]="10"
       [showCurrentPageReport]="true"
       [tableStyle]="{ 'min-width': '50rem' }"
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
       [rowsPerPageOptions]="[10, 25, 50]"
     >
+      <ng-template pTemplate="caption">
+        <div class="flex table-title">
+          Manage My Bookings
+        </div>
+      </ng-template>
       <ng-template pTemplate="header">
         <tr>
-          <th style="width:25%">Notes</th>
-          <th style="width:25%">Date and time</th>
-          <th style="width:25%">Service</th>
-          <th style="width:25%">Service provider</th>
+          <th style="width:20%">Notes</th>
+          <th style="width:20%">Date and time</th>
+          <th style="width:20%">Service</th>
+          <th style="width:20%">Provider</th>
+          <th style="width:20%">Actions</th>
 
         </tr>
       </ng-template>
@@ -24,7 +31,14 @@
           <td>{{ booking.notes }}</td>
           <td>{{ booking.date_time | date: 'short' }}</td>
           <td>{{ booking.booked_service.name }}</td>
-          <td>{{ booking.booked_service.serviceProvider.name }}</td>
+          <td>{{ booking.booked_service.serviceProvider.name }} ({{ booking.booked_service.serviceProvider.email }})</td>
+          <td class="px-4 py-2">
+            <button pButton type="button"
+                    class="deleteButton"
+                    (click)="confirm(booking)">
+              <i class="pi pi-trash"></i>Delete
+            </button>
+          </td>
         </tr>
       </ng-template>
       <ng-template pTemplate="paginatorleft">
@@ -36,3 +50,15 @@
     </p-table>
   </div>
 </div>
+
+
+<p-toast position="bottom-left"></p-toast>
+<p-confirmDialog #cd [style]="{width: '50vw'}">
+  <ng-template pTemplate="header">
+    <h3>Cancel Booking</h3>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button type="button" class="editButton" pButton icon="pi pi-times" label="No" (click)="cd.reject()"></button>
+    <button type="button" class="deleteButton" pButton icon="pi pi-check" label="Yes" (click)="cd.accept()"></button>
+  </ng-template>
+</p-confirmDialog>

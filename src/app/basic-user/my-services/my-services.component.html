@@ -1,46 +1,85 @@
+<p-dialog header="Create a new service" [(visible)]="showModal1"
+          [style]="{width: '50vw', height: '70vh'}" [draggable]="false"
+          [modal]="true">
+
+  <div>
+    <form [formGroup]="newServiceForm" (ngSubmit)="onSubmitCreation()">
+      <span class="p-float-label">
+        <input id="name1" pInputText formControlName="name"/>
+        <label for="name1"><span>Name</span></label>
+      </span>
+      <span class="p-float-label">
+        <input id="cost1" pInputText formControlName="cost"/>
+        <label for="cost1"><span>Cost</span></label>
+      </span>
+      <span class="p-float-label">
+        <p>Description</p>
+        <textarea id="description1" pInputTextarea formControlName="description"></textarea>
+      </span>
+      <button pButton type="submit" [disabled]="newServiceForm.invalid" class="submit-button">
+        Submit
+      </button>
+    </form>
+  </div>
+</p-dialog>
+
+<p-dialog [(visible)]="showModal2"
+          [style]="{width: '50vw', height: '70vh'}" [draggable]="false"
+          [modal]="true">
+
+  <div>
+    <form [formGroup]="editServiceForm" (ngSubmit)="onSubmitEdit()">
+      <span class="p-float-label">
+        <input id="name2" pInputText formControlName="name"/>
+        <label for="name2"><span>Name</span></label>
+      </span>
+      <span class="p-float-label">
+        <input id="cost2" pInputText formControlName="cost"/>
+        <label for="cost2"><span>Cost</span></label>
+      </span>
+      <span class="p-float-label">
+        <p>Description</p>
+        <textarea id="description2" pInputTextarea formControlName="description"></textarea>
+      </span>
+      <button pButton type="submit" [disabled]="editServiceForm.invalid" class="submit-button">
+        Submit
+      </button>
+    </form>
+  </div>
+</p-dialog>
+
 <div class="centered-container">
-  <h1>Add a new service:</h1>
-  <form [formGroup]="newServiceForm" (ngSubmit)="onSubmit()">
-    <div class="p-fluid">
-    <span class="p-float-label">
-      <input type="text" id="name" pInputText formControlName="name" required>
-      <label for="name">Name</label>
-    </span>
-
-      <span class="p-float-label">
-      <input type="text" id="description" pInputText formControlName="description" required>
-      <label for="description">Description</label>
-    </span>
-
-      <span class="p-float-label">
-      <input type="text" id="cost" pInputText formControlName="cost" required>
-      <label for="cost">Cost</label>
-    </span>
-    </div>
-    <div class="p-footer">
-      <button type="button" pButton label="Create" [disabled]="!newServiceForm.valid" class="p-button-success"
-              (click)="onSubmit()"></button>
-    </div>
-  </form>
-
-  <br>
-  <hr>
-  <h1>My Services</h1>
   <div class="card">
     <p-table
       [value]="services"
       [paginator]="true"
-      [rows]="5"
+      [rows]="10"
       [showCurrentPageReport]="true"
+      [resizableColumns]="true"
+      styleClass="p-datatable-gridlines"
       [tableStyle]="{ 'min-width': '50rem' }"
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
       [rowsPerPageOptions]="[10, 25, 50]"
     >
+      <ng-template pTemplate="caption">
+        <div class="flex table-title">
+          Manage My Services
+          <span class="p-input-icon-left ml-auto">
+      <button pButton type="button"
+              class="styled-button"
+              (click)="showDialog1()">
+        <i class="pi pi-plus"></i> Create
+      </button>
+    </span>
+        </div>
+      </ng-template>
+
       <ng-template pTemplate="header">
         <tr>
-          <th style="width:33%">Name</th>
-          <th style="width:33%">Cost</th>
-          <th style="width:33%">Description</th>
+          <th style="width:25%">Name</th>
+          <th style="width:25%">Cost</th>
+          <th style="width:25%">Description</th>
+          <th style="width:25%">Actions</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-service>
@@ -48,6 +87,20 @@
           <td>{{ service.name }}</td>
           <td>€{{ service.cost }}</td>
           <td>{{ service.description }}</td>
+          <td class="px-4 py-2">
+            <div class="flex">
+              <button pButton type="button"
+                      class="deleteButton"
+                      (click)="confirm(service)">
+                <i class="pi pi-trash"></i>Delete
+              </button>
+              <button pButton type="button"
+                      class="editButton"
+                      (click)="showDialog2(service)">
+                <i class="pi pi-pencil"></i>Edit
+              </button>
+            </div>
+          </td>
         </tr>
       </ng-template>
       <ng-template pTemplate="paginatorleft">
@@ -59,3 +112,16 @@
     </p-table>
   </div>
 </div>
+
+
+<p-toast position="bottom-left"></p-toast>
+<p-confirmDialog #cd [style]="{width: '50vw'}">
+  <ng-template pTemplate="header">
+    <h3>Delete Service</h3>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button type="button" class="editButton" pButton icon="pi pi-times" label="No" (click)="cd.reject()"></button>
+    <button type="button" class="deleteButton" pButton icon="pi pi-check" label="Yes" (click)="cd.accept()"></button>
+  </ng-template>
+</p-confirmDialog>
+

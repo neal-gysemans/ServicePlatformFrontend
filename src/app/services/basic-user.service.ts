@@ -6,6 +6,7 @@ import {environment} from "../shared/environment";
 import {BookingReponse} from "../dto/BookingReponse";
 import {NewApplicationServiceCommand} from "../dto/NewApplicationServiceCommand";
 import {NewBookingCommand} from "../dto/NewBookingCommand";
+import {UpdateServiceCommand} from "../dto/UpdateServiceCommand";
 
 @Injectable({
   providedIn: 'root'
@@ -36,4 +37,20 @@ export class BasicUserService {
     console.log(newBookingCommand);
     return this.http.post<BookingReponse>(`${environment.apiUrl}/booking/create`, newBookingCommand);
   }
+
+  deleteUserService(applicationServiceId: bigint) {
+    return this.http.delete<any>(`${environment.apiUrl}/application-service/delete/${applicationServiceId}`,
+      { observe: 'response' });
+  }
+  deleteBooking(bookingId: bigint) {
+    return this.http.delete<any>(`${environment.apiUrl}/booking/delete/${bookingId}`,
+      { observe: 'response' });
+  }
+
+  editService(updatedService: UpdateServiceCommand) {
+    return this.http.put<ApplicationServiceAndUserResponse>(`${environment.apiUrl}/application-service/update`,
+      updatedService);
+  }
+
+
 }

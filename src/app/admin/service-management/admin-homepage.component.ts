@@ -4,6 +4,7 @@ import {AdminService} from "../../services/admin.service";
 import {HttpResponse} from "@angular/common/http";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {UpdateServiceCommand} from "../../dto/UpdateServiceCommand";
+import {ConfirmationService, ConfirmEventType, MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-admin-homepage',
@@ -20,7 +21,13 @@ export class AdminHomepageComponent implements OnInit {
   showModal!: boolean;
 
 
-  constructor(private adminService: AdminService, private formBuilder: FormBuilder) {
+  first = 0;
+
+  rows = 10;
+
+
+  constructor(private adminService: AdminService, private formBuilder: FormBuilder,
+              private confirmationService: ConfirmationService, private messageService: MessageService) {
     this.serviceForm = this.formBuilder.group({
       id: [-1],
       name: ['', Validators.required],
@@ -39,6 +46,28 @@ export class AdminHomepageComponent implements OnInit {
       this.services = services.sort((a, b) => {
         return a.serviceProvider.name.localeCompare(b.serviceProvider.name);
       });
+    });
+  }
+
+  confirm(applicationService: ApplicationServiceAndUserResponse) {
+    this.confirmationService.confirm({
+      message: `Are you sure that you want to delete <b>${applicationService.name}</b>?`,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.messageService.add({ severity: 'info', summary: 'Deleted',
+          detail: `You have deleted ${applicationService.name}.` });
+        this.deleteService(applicationService.id);
+      },
+      reject: (type: ConfirmEventType) => {
+        switch (type) {
+          case ConfirmEventType.REJECT:
+            this.messageService.add({ severity: 'error', summary: 'Rejected', detail: `You have rejected to delete ${applicationService.name}.` });
+            break;
+          case ConfirmEventType.CANCEL:
+            this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: 'You have cancelled' });
+            break;
+        }
+      }
     });
   }
 
@@ -112,27 +141,27 @@ export class AdminHomepageComponent implements OnInit {
   }
 
 
-  // Pagination logic (assuming you have already implemented the pagination methods)
-  prev(): void {
-    // Logic for moving to the previous page
+  next() {
+    this.first = this.first + this.rows;
   }
 
-  next(): void {
-    // Logic for moving to the next page
+  prev() {
+    this.first = this.first - this.rows;
   }
 
-  reset(): void {
-    // Logic for resetting the pagination or other data
+  reset() {
+    this.first = 0;
   }
 
-  isFirstPage(): boolean {
-    // Logic to check if it's the first page
-    return false; // Replace with the appropriate logic
+  isLastPage()
+    :
+    boolean {
+    return this.services ? this.first === this.services.length - this.rows : true;
   }
 
-  isLastPage(): boolean {
-    // Logic to check if it's the last page
-    return false; // Replace with the appropriate logic
+  isFirstPage()
+    :
+    boolean {
+    return this.services ? this.first === 0 : true;
   }
-
 }

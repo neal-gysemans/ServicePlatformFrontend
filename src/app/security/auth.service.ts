@@ -8,9 +8,6 @@ import { map } from "rxjs";
 export class AuthService {
   private baseUrl = 'http://localhost:9090/api/auth';
 
-  private userRole: string = "";
-
-
   constructor(private http: HttpClient) {
   }
 
@@ -38,21 +35,12 @@ export class AuthService {
     return !!localStorage.getItem('access_token');
   }
 
-  setUserRole(role: string): void {
-    this.userRole = role;
-  }
-
-  getUserRole(): string {
-    return this.userRole;
-  }
-
-  getUserRoleFromStorage() {
+  getTokenInformation(){
     const storedToken = localStorage.getItem('access_token');
     if (storedToken) {
-      const decodedToken = this.decodeToken(storedToken);
-      return decodedToken?.role || 'GUEST';
+      return this.decodeToken(storedToken);
     } else {
-      return 'GUEST';
+      return "No user is logged in!";
     }
   }
 

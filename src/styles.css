@@ -23,3 +23,52 @@
   /* Add a box shadow to give the container some depth */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
+.table-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: darkcyan;
+}
+
+i {
+  margin-right: .5rem;
+}
+/* Styles for the Delete button */
+.deleteButton {
+  background-color: #dc3545; /* Set your desired background color */
+  color: white; /* Set your desired text color */
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.deleteButton:hover,
+.deleteButton:focus,
+.deleteButton:active {
+  background-color: #c82333;
+  outline: none; /* Remove default focus outline */
+}
+
+/* Styles for the Edit button */
+.editButton {
+  background-color: darkcyan; /* Set your desired background color */
+  color: white; /* Set your desired text color */
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.editButton:hover,
+.editButton:focus,
+.editButton:active {
+  background-color: darkblue;
+  outline: none; /* Remove default focus outline */
+}
+
+

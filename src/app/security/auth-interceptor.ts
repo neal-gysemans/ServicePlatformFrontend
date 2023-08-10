@@ -15,7 +15,6 @@ export class AuthInterceptor implements HttpInterceptor {
       req.url.includes('/api/application-service/all')
     ) {
       // If it is, simply pass the request to the next interceptor or HTTP handler without modification
-      //console.log("interceptor1: ", req);
       return next.handle(req);
     }
 

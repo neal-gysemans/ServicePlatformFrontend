@@ -1,5 +1,5 @@
 import {Route} from "@angular/router";
-import {AdminHomepageComponent} from "./admin-homepage/admin-homepage.component";
+import {AdminHomepageComponent} from "./service-management/admin-homepage.component";
 import {UserManagementComponent} from "./user-management/user-management.component";
 
 export const adminRoutes: Route[] = [
