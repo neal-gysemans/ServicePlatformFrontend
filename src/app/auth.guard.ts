@@ -17,12 +17,12 @@ export class AuthGuard implements CanActivate {
 
     if (!this.authService.isLoggedIn()) {
       // If the user is not logged in, redirect to the guest page
-      this.router.navigate(['/guest']);
+      this.router.navigate(['/unauthorized']);
       return false;
     }
 
-    const userRole = this.authService.getUserRoleFromStorage();
-    if (userRole === requiredRole) {
+    const userInfo = this.authService.getTokenInformation();
+    if (userInfo.role === requiredRole) {
       // Allow access if the user has the required role or is an admin
       return true;
     } else {

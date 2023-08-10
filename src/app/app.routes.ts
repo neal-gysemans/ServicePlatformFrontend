@@ -5,6 +5,9 @@ import {adminRoutes} from "./admin/admin.routes";
 import {RegisterComponent} from "./shared/register/register.component";
 import {LoginComponent} from "./shared/login/login.component";
 import {AuthGuard} from "./auth.guard";
+import {InformationComponent} from "./shared/information/information.component";
+import {UnauthorizedComponent} from "./shared/unauthorized/unauthorized.component";
+import {NotFoundComponent} from "./shared/not-found/not-found.component";
 
 export const Routes: Route[] = [
   { path: "guest", children: guestRoutes},
@@ -12,8 +15,7 @@ export const Routes: Route[] = [
   { path: "admin", children: adminRoutes, canActivate: [AuthGuard], data: { 'role': 'ADMIN' }},
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
-
-  /*{ path: "organisation-admin", children: orgManagerRoutes, canActivate: [AuthGuard] },
-  { path: "platform-admin", children: platAdminRoutes, canActivate: [AuthGuard] },
-  { path: "guest", children: guestRoutes }*/
+  { path: '', component: InformationComponent},
+  { path: 'unauthorized', component: UnauthorizedComponent},
+  { path: '**', component: NotFoundComponent }
 ];

@@ -4,15 +4,16 @@
       [value]="users"
       [paginator]="true"
       [rows]="10"
+      styleClass="p-datatable-gridlines"
       [showCurrentPageReport]="true"
       [tableStyle]="{ 'min-width': '50rem' }"
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} Users"
       [rowsPerPageOptions]="[10, 25, 50]"
     >
       <ng-template pTemplate="caption">
-        <tr>
+        <div class="table-title">
           User Management
-        </tr>
+        </div>
       </ng-template>
       <ng-template pTemplate="header">
         <tr>

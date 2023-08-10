@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {ApplicationServiceAndUserResponse} from "../../dto/ApplicationServiceAndUserResponse";
 import {BookingReponse} from "../../dto/BookingReponse";
 import {BasicUserService} from "../../services/basic-user.service";
 import {AuthService} from "../../security/auth.service";
 import {Router} from "@angular/router";
+import {HttpResponse} from "@angular/common/http";
+import {ConfirmationService, ConfirmEventType, MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-my-bookings',
@@ -13,7 +14,15 @@ import {Router} from "@angular/router";
 export class MyBookingsComponent implements OnInit {
   bookings: BookingReponse[] = [];
 
-  constructor(private userService: BasicUserService, private authService: AuthService, private router: Router) {}
+
+  first = 0;
+
+  rows = 10;
+
+  constructor(private userService: BasicUserService,
+              private confirmationService: ConfirmationService, private messageService: MessageService
+              ) {
+  }
 
   ngOnInit(): void {
     this.fetchBookings();
@@ -27,32 +36,67 @@ export class MyBookingsComponent implements OnInit {
     });
   }
 
-  logout(): void {
-    this.authService.logout(); // Call the logout method from AuthService
-    this.router.navigate(["/login"]);
+  confirm(booking: BookingReponse) {
+    this.confirmationService.confirm({
+      message: `Are you sure that you want to delete <b>${booking.booked_service.name}</b>?`,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.messageService.add({ severity: 'info', summary: 'Deleted',
+          detail: `You have deleted ${booking.booked_service.name}.` });
+        this.deleteBooking(booking.id);
+      },
+      reject: (type: ConfirmEventType) => {
+        switch (type) {
+          case ConfirmEventType.REJECT:
+            this.messageService.add({ severity: 'error', summary: 'Rejected', detail: `You have rejected to delete ${booking.booked_service.name}.` });
+            break;
+          case ConfirmEventType.CANCEL:
+            this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: 'You have cancelled' });
+            break;
+        }
+      }
+    });
   }
 
-  // Pagination logic (assuming you have already implemented the pagination methods)
-  prev(): void {
-    // Logic for moving to the previous page
+  deleteBooking(id: bigint): void {
+    this.userService.deleteBooking(id).subscribe(
+      (response: HttpResponse<any>) => {
+        if (response.status === 200) {
+          console.log('Booking deleted successfully!');
+          // You may want to update the services list after successful deletion
+          this.fetchBookings();
+        } else {
+          console.error('Failed to delete booking.');
+        }
+      },
+      (error) => {
+        console.error('Failed to delete booking.', error);
+      }
+    );
   }
 
-  next(): void {
-    // Logic for moving to the next page
+  next() {
+    this.first = this.first + this.rows;
   }
 
-  reset(): void {
-    // Logic for resetting the pagination or other data
+  prev() {
+    this.first = this.first - this.rows;
   }
 
-  isFirstPage(): boolean {
-    // Logic to check if it's the first page
-    return false; // Replace with the appropriate logic
+  reset() {
+    this.first = 0;
   }
 
-  isLastPage(): boolean {
-    // Logic to check if it's the last page
-    return false; // Replace with the appropriate logic
+  isLastPage()
+    :
+    boolean {
+    return this.bookings ? this.first === this.bookings.length - this.rows : true;
+  }
+
+  isFirstPage()
+    :
+    boolean {
+    return this.bookings ? this.first === 0 : true;
   }
 
 }

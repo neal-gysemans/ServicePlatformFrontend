@@ -2,3 +2,21 @@ nav a.active {
   background-color: lightblue;
   color: black;
 }
+
+
+li button {
+  background-color: darkcyan; /* Set your desired background color */
+  color: white; /* Set your desired text color */
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+li button:hover {
+  background-color: darkblue;
+  color:white;
+}
+
