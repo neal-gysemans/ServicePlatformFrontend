@@ -3,6 +3,7 @@ import {ApplicationServiceAndUserResponse} from "../../dto/ApplicationServiceAnd
 import {BasicUserService} from "../../services/basic-user.service";
 import {NewBookingCommand} from "../../dto/NewBookingCommand";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-all-services',
@@ -28,7 +29,7 @@ export class AllServicesComponent implements OnInit {
 
   rows = 10;
 
-  constructor(private userService: BasicUserService) {
+  constructor(private userService: BasicUserService, private messageService: MessageService) {
     this.newBooking = new FormGroup({
       notes: new FormControl('', [Validators.maxLength(500)]),
       date_time: new FormControl(new Date())
@@ -45,13 +46,12 @@ export class AllServicesComponent implements OnInit {
 
     // Call the service to create the new booking
     this.userService.createBooking(this.newBookingCommand).subscribe(
-      (createdBooking) => {
-        console.log('Booking created successfully:', createdBooking);
-        // Optionally, you can handle success cases here
+      () => {
+        this.messageService.add({severity: 'info', summary: 'Booking created'});
+
       },
-      (error) => {
-        console.error('Failed to create service:', error);
-        // Optionally, you can handle error cases here
+      () => {
+        this.messageService.add({severity: 'error', summary: 'Failed to create booking'});
       }
     );
     this.clearForm();

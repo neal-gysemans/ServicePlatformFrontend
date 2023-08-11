@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {AuthService} from '../../security/auth.service';
 import {Router} from "@angular/router";
 import {MessageService} from "primeng/api";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-login',
@@ -14,24 +15,26 @@ export class LoginComponent {
     password: ''
   };
 
-  constructor(private authService: AuthService, private router: Router, private messageService: MessageService) {
+  credentialsForm: FormGroup;
+
+  constructor(private authService: AuthService, private router: Router, private messageService: MessageService,
+              private formBuilder: FormBuilder) {
+    this.credentialsForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required],
+    });
   }
 
   onSubmit() {
+    this.credentials.email = this.credentialsForm.value.email;
+    this.credentials.password = this.credentialsForm.value.password;
+
     this.authService.login(this.credentials).subscribe(
       () => {
-        const accessToken = localStorage.getItem('access_token');
-        const userInfo = this.authService.getTokenInformation();
-        const role = userInfo.role;
 
-        console.log('Access Token:', accessToken);
+          this.router.navigate(['']);
+        this.messageService.add({severity: 'info', summary: 'Login succesful'});
 
-        // Redirect the user based on their role
-        if (role === 'ADMIN') {
-          this.router.navigate(['']);
-        } else if (role === 'USER') {
-          this.router.navigate(['']);
-        }
       },
       (error) => {
 

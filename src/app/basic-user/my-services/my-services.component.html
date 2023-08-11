@@ -9,7 +9,7 @@
         <label for="name1"><span>Name</span></label>
       </span>
       <span class="p-float-label">
-        <input id="cost1" pInputText formControlName="cost"/>
+        <input id="cost1" pInputText formControlName="cost" type="number"/>
         <label for="cost1"><span>Cost</span></label>
       </span>
       <span class="p-float-label">
@@ -124,4 +124,7 @@
     <button type="button" class="deleteButton" pButton icon="pi pi-check" label="Yes" (click)="cd.accept()"></button>
   </ng-template>
 </p-confirmDialog>
+
+<p-toast position="bottom-left"></p-toast>
+
 
