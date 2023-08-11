@@ -35,13 +35,13 @@ export class MyServicesComponent implements OnInit {
     this.newServiceForm = this.formBuilder.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
-      cost: ['', Validators.required]
+      cost: [0, Validators.required]
     });
     this.editServiceForm = this.formBuilder.group({
       id: [-1],
       name: ['', Validators.required],
       description: ['', Validators.required],
-      cost: ['', Validators.required]
+      cost: [0, Validators.required]
     });
   }
 
@@ -51,7 +51,6 @@ export class MyServicesComponent implements OnInit {
 
   // Function to fetch services data
   fetchServices(): void {
-    // Replace 'getServices()' with the actual method in your service to get the services data
     this.userService.getServices().subscribe((services) => {
       this.services = services;
     });
@@ -62,17 +61,23 @@ export class MyServicesComponent implements OnInit {
       message: `Are you sure that you want to delete <b>${applicationService.name}</b>?`,
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.messageService.add({ severity: 'info', summary: 'Deleted',
-          detail: `You have deleted ${applicationService.name}.` });
-        this.deleteService(applicationService.id);
+        this.messageService.add({
+          severity: 'info', summary: 'Deleted',
+          detail: `You have deleted ${applicationService.name}.`
+        });
+        this.deleteService(applicationService);
       },
       reject: (type: ConfirmEventType) => {
         switch (type) {
           case ConfirmEventType.REJECT:
-            this.messageService.add({ severity: 'error', summary: 'Rejected', detail: `You have rejected to delete ${applicationService.name}.` });
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Rejected',
+              detail: `You have rejected to delete ${applicationService.name}.`
+            });
             break;
           case ConfirmEventType.CANCEL:
-            this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: 'You have cancelled' });
+            this.messageService.add({severity: 'warn', summary: 'Cancelled', detail: 'You have cancelled'});
             break;
         }
       }
@@ -80,19 +85,25 @@ export class MyServicesComponent implements OnInit {
   }
 
 
-  deleteService(applicationServiceId: bigint): void {
-    this.userService.deleteUserService(applicationServiceId).subscribe(
+  deleteService(applicationService: ApplicationServiceAndUserResponse): void {
+    this.userService.deleteUserService(applicationService.id).subscribe(
       (response: HttpResponse<any>) => {
         if (response.status === 200) {
-          console.log('Service deleted successfully!');
-          // You may want to update the services list after successful deletion
           this.fetchServices();
         } else {
-          console.error('Failed to delete service.');
+          this.messageService.add({
+            severity: 'info',
+            summary: 'Succes',
+            detail: `You have deleted the service: ${applicationService.name}.`
+          });
         }
       },
       (error) => {
-        console.error('Failed to delete service.', error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Failed',
+          detail: `You have failed to delete service: ${applicationService.name}.`
+        });
       }
     );
   }
@@ -127,10 +138,27 @@ export class MyServicesComponent implements OnInit {
     this.userService.createService(this.newService).subscribe(
       (newService) => {
         this.services.push(newService);
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Succes',
+          detail: `Service ${this.newService.name} created.`
+        });
       },
       (error) => {
-        console.error('Failed to edit service:', error);
-        // Optionally, you can handle error cases here
+        if(error.status === 409){
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Failed',
+            detail: `You already offer a service with the name ${this.newService.name}.`
+          });
+        } else {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Failed',
+            detail: `Failed to create service ${this.newService.name}.`
+          });
+        }
+
       }
     );
     this.clearForms();
@@ -155,7 +183,8 @@ export class MyServicesComponent implements OnInit {
           this.services[index] = editedService;
         }
 
-        // Optionally, you can handle success cases here
+        this.messageService.add({severity: 'info', summary: 'Service edited'});
+
       },
       (error) => {
         console.error('Failed to edit service:', error);
@@ -166,7 +195,7 @@ export class MyServicesComponent implements OnInit {
             this.services[index] = oldService;
           }
         }
-        // Optionally, you can handle error cases here
+        this.messageService.add({severity: 'error', summary: 'Failed to edit service'});
       }
     );
     this.clearForms();

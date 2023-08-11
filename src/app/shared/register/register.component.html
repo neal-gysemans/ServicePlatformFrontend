@@ -1,29 +1,32 @@
 <div class="centered-container">
-  <form (ngSubmit)="onSubmit()" #registerForm="ngForm" class="register-form">
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
     <div class="card">
       <div class="p-inputgroup">
         <span class="p-inputgroup-addon">
           <i class="pi pi-envelope"></i>
         </span>
-        <input pInputText type="email" placeholder="Email" [(ngModel)]="user.email" name="email" required/>
+        <input pInputText type="email" placeholder="Email" formControlName="email" name="email"/>
       </div>
 
       <div class="p-inputgroup">
         <span class="p-inputgroup-addon">
           <i class="pi pi-user"></i>
         </span>
-        <input pInputText type="text" placeholder="Name" [(ngModel)]="user.name" name="name" required/>
+        <input pInputText type="text" placeholder="Name" formControlName="name" name="name"/>
       </div>
 
       <div class="p-inputgroup">
         <span class="p-inputgroup-addon">
           <i class="pi pi-lock"></i>
         </span>
-        <input pInputText pPassword type="password" placeholder="Password" [(ngModel)]="user.password" name="password"
-               required/>
+        <input pInputText pPassword type="password" placeholder="Password" formControlName="password" name="password"
+        />
       </div>
 
-      <button pButton type="submit" label="Register" class="p-button p-button-success register-button"></button>
+      <button pButton type="submit" label="Register" [disabled]="registerForm.invalid" class="p-button p-button-success register-button"></button>
     </div>
   </form>
 </div>
+
+
+<p-toast position="bottom-left"></p-toast>

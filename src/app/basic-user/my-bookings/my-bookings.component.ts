@@ -60,14 +60,10 @@ export class MyBookingsComponent implements OnInit {
 
   deleteBooking(id: bigint): void {
     this.userService.deleteBooking(id).subscribe(
-      (response: HttpResponse<any>) => {
-        if (response.status === 200) {
-          console.log('Booking deleted successfully!');
-          // You may want to update the services list after successful deletion
-          this.fetchBookings();
-        } else {
-          console.error('Failed to delete booking.');
-        }
+      () => {
+        console.log('Booking deleted successfully!');
+        // Update the bookings list after successful deletion
+        this.fetchBookings();
       },
       (error) => {
         console.error('Failed to delete booking.', error);

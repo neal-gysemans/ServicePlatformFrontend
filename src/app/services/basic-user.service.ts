@@ -33,8 +33,6 @@ export class BasicUserService {
   }
 
   createBooking(newBookingCommand: NewBookingCommand): Observable<BookingReponse> {
-    console.log("userService engaged");
-    console.log(newBookingCommand);
     return this.http.post<BookingReponse>(`${environment.apiUrl}/booking/create`, newBookingCommand);
   }
 
