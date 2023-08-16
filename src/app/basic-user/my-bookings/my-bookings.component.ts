@@ -1,9 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {BookingReponse} from "../../dto/BookingReponse";
-import {BasicUserService} from "../../services/basic-user.service";
-import {AuthService} from "../../security/auth.service";
-import {Router} from "@angular/router";
-import {HttpResponse} from "@angular/common/http";
+import {BasicUserService} from "../basic-user.service";
 import {ConfirmationService, ConfirmEventType, MessageService} from "primeng/api";
 
 @Component({
@@ -21,16 +18,14 @@ export class MyBookingsComponent implements OnInit {
 
   constructor(private userService: BasicUserService,
               private confirmationService: ConfirmationService, private messageService: MessageService
-              ) {
+  ) {
   }
 
   ngOnInit(): void {
     this.fetchBookings();
   }
 
-  // Function to fetch bookings data
   fetchBookings(): void {
-    // Replace 'getBookings()' with the actual method in your service to get the bookings data
     this.userService.getBookings().subscribe((bookings) => {
       this.bookings = bookings;
     });
@@ -41,17 +36,23 @@ export class MyBookingsComponent implements OnInit {
       message: `Are you sure that you want to delete <b>${booking.booked_service.name}</b>?`,
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.messageService.add({ severity: 'info', summary: 'Deleted',
-          detail: `You have deleted ${booking.booked_service.name}.` });
+        this.messageService.add({
+          severity: 'info', summary: 'Deleted',
+          detail: `You have deleted ${booking.booked_service.name}.`
+        });
         this.deleteBooking(booking.id);
       },
       reject: (type: ConfirmEventType) => {
         switch (type) {
           case ConfirmEventType.REJECT:
-            this.messageService.add({ severity: 'error', summary: 'Rejected', detail: `You have rejected to delete ${booking.booked_service.name}.` });
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Rejected',
+              detail: `You have rejected to delete ${booking.booked_service.name}.`
+            });
             break;
           case ConfirmEventType.CANCEL:
-            this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: 'You have cancelled' });
+            this.messageService.add({severity: 'warn', summary: 'Cancelled', detail: 'You have cancelled'});
             break;
         }
       }
@@ -61,12 +62,9 @@ export class MyBookingsComponent implements OnInit {
   deleteBooking(id: bigint): void {
     this.userService.deleteBooking(id).subscribe(
       () => {
-        console.log('Booking deleted successfully!');
-        // Update the bookings list after successful deletion
         this.fetchBookings();
       },
       (error) => {
-        console.error('Failed to delete booking.', error);
       }
     );
   }

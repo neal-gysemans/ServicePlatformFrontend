@@ -81,7 +81,7 @@ export class NavigationComponent implements OnInit {
   logout(): void {
     this.isBasicUser = false;
     this.isAdminUser = false;
-    this.authService.logout(); // Call the logout method from AuthService
-    this.router.navigate(["/login"]);
+    this.authService.logout();
+    this.router.navigate(["/auth/login"]);
   }
 }

@@ -18,7 +18,6 @@ export class AuthService {
   login(credentials: any) {
     return this.http.post<any>(`${this.baseUrl}/authenticate`, credentials).pipe(
       map(response => {
-        // Store the token in local storage
         localStorage.setItem('access_token', response.token);
         return response;
       })
@@ -26,12 +25,10 @@ export class AuthService {
   }
 
   logout() {
-    // Remove the token from local storage
     localStorage.removeItem('access_token');
   }
 
   isLoggedIn() {
-    // Check if the token exists
     return !!localStorage.getItem('access_token');
   }
 

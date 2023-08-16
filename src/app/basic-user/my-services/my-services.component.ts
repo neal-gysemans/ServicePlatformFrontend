@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ApplicationServiceAndUserResponse} from "../../dto/ApplicationServiceAndUserResponse";
-import {BasicUserService} from "../../services/basic-user.service";
+import {BasicUserService} from "../basic-user.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {HttpResponse} from "@angular/common/http";
 import {UpdateServiceCommand} from "../../dto/UpdateServiceCommand";
@@ -14,12 +14,10 @@ import {ConfirmationService, ConfirmEventType, MessageService} from "primeng/api
 export class MyServicesComponent implements OnInit {
   services: ApplicationServiceAndUserResponse[] = [];
 
-  // modal for creation
   newServiceForm: FormGroup;
   newService = {} as UpdateServiceCommand;
   showModal1!: boolean;
 
-  // modal for editing
   editServiceForm: FormGroup;
   updatedService = {} as UpdateServiceCommand;
   showModal2!: boolean;
@@ -49,7 +47,6 @@ export class MyServicesComponent implements OnInit {
     this.fetchServices();
   }
 
-  // Function to fetch services data
   fetchServices(): void {
     this.userService.getServices().subscribe((services) => {
       this.services = services;
@@ -134,7 +131,6 @@ export class MyServicesComponent implements OnInit {
     this.newService.cost = this.newServiceForm.value.cost;
     this.newService.description = this.newServiceForm.value.description;
 
-    // Call the service to create the service
     this.userService.createService(this.newService).subscribe(
       (newService) => {
         this.services.push(newService);
@@ -172,14 +168,11 @@ export class MyServicesComponent implements OnInit {
 
     const oldService = this.services.find(service => service.id === this.newService.id);
 
-    // Call the service to edit the service
     this.userService.editService(this.updatedService).subscribe(
       (editedService) => {
-        // Find the index of the updated service in the services array
         const index = this.services.findIndex(service => service.id === editedService.id);
 
         if (index !== -1) {
-          // Update the services array with the edited service
           this.services[index] = editedService;
         }
 
@@ -187,8 +180,6 @@ export class MyServicesComponent implements OnInit {
 
       },
       (error) => {
-        console.error('Failed to edit service:', error);
-        // Revert to the old service in case of error
         if (oldService) {
           const index = this.services.findIndex(service => service.id === oldService.id);
           if (index !== -1) {

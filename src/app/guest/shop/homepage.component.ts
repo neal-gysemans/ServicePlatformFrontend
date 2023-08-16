@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import { ApplicationServiceAndUserResponse } from "../../dto/ApplicationServiceAndUserResponse";
-import { GuestService } from "../../services/guest.service";
+import { GuestService } from "../guest.service";
 
 @Component({
   selector: 'app-homepage',

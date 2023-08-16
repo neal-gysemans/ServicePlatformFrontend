@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ApplicationServiceAndUserResponse} from "../../dto/ApplicationServiceAndUserResponse";
 import {BookingReponse} from "../../dto/BookingReponse";
-import {BasicUserService} from "../../services/basic-user.service";
+import {BasicUserService} from "../basic-user.service";
 import {AuthService} from "../../security/auth.service";
 import {Router} from "@angular/router";
 
@@ -14,6 +14,12 @@ export class BasicUserHomepageComponent implements OnInit {
   services: ApplicationServiceAndUserResponse[] = [];
   bookings: BookingReponse[] = [];
 
+
+
+  first = 0;
+
+  rows = 10;
+
   constructor(private userService: BasicUserService, private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
@@ -21,48 +27,39 @@ export class BasicUserHomepageComponent implements OnInit {
     this.fetchBookings();
   }
 
-  // Function to fetch services data
   fetchServices(): void {
-    // Replace 'getServices()' with the actual method in your service to get the services data
     this.userService.getServices().subscribe((services) => {
       this.services = services;
     });
   }
 
-  // Function to fetch bookings data
   fetchBookings(): void {
-    // Replace 'getBookings()' with the actual method in your service to get the bookings data
     this.userService.getBookings().subscribe((bookings) => {
       this.bookings = bookings;
     });
   }
 
-  logout(): void {
-    this.authService.logout(); // Call the logout method from AuthService
-    this.router.navigate(["/login"]);
+  next() {
+    this.first = this.first + this.rows;
   }
 
-  // Pagination logic (assuming you have already implemented the pagination methods)
-  prev(): void {
-    // Logic for moving to the previous page
+  prev() {
+    this.first = this.first - this.rows;
   }
 
-  next(): void {
-    // Logic for moving to the next page
+  reset() {
+    this.first = 0;
   }
 
-  reset(): void {
-    // Logic for resetting the pagination or other data
+  isLastPage()
+    :
+    boolean {
+    return this.services ? this.first === this.services.length - this.rows : true;
   }
 
-  isFirstPage(): boolean {
-    // Logic to check if it's the first page
-    return false; // Replace with the appropriate logic
+  isFirstPage()
+    :
+    boolean {
+    return this.services ? this.first === 0 : true;
   }
-
-  isLastPage(): boolean {
-    // Logic to check if it's the last page
-    return false; // Replace with the appropriate logic
-  }
-
 }

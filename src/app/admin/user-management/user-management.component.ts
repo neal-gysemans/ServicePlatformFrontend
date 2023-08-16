@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AdminService} from "../../services/admin.service";
+import {AdminService} from "../admin.service";
 import {UserStatusResponse} from "../../dto/UserStatusResponse";
 
 @Component({

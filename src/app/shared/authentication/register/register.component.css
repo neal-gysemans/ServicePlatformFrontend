@@ -43,7 +43,6 @@ input[type="password"] {
   transition: background-color 0.3s;
 }
 
-/* Dark blue button color on hover */
 .p-button.p-button-success:hover {
   background-color: darkblue;
 }

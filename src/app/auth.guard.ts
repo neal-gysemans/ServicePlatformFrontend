@@ -1,13 +1,14 @@
-import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { AuthService } from "./security/auth.service";
+import {Injectable} from '@angular/core';
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
+import {Observable} from 'rxjs';
+import {AuthService} from "./security/auth.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {
+  }
 
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -16,18 +17,15 @@ export class AuthGuard implements CanActivate {
     const requiredRole = next.data['role'];
 
     if (!this.authService.isLoggedIn()) {
-      // If the user is not logged in, redirect to the guest page
       this.router.navigate(['/unauthorized']);
       return false;
     }
 
     const userInfo = this.authService.getTokenInformation();
     if (userInfo.role === requiredRole) {
-      // Allow access if the user has the required role or is an admin
       return true;
     } else {
-      // Redirect to an unauthorized page or display an error message
-      this.router.navigate(['/unauthorized']); // Replace '/unauthorized' with the path to your unauthorized page or component
+      this.router.navigate(['/unauthorized']);
       return false;
     }
   }

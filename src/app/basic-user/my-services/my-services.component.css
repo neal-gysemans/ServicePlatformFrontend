@@ -1,6 +1,6 @@
 .submit-button {
-  background-color: #007bff; /* Set your desired background color */
-  color: white; /* Set your desired text color */
+  background-color: #007bff;
+  color: white;
   border: none;
   padding: 10px 20px;
   border-radius: 4px;
@@ -10,11 +10,11 @@
 }
 
 .submit-button:disabled {
-  background-color: #ccc; /* Set the disabled state background color */
+  background-color: #ccc;
   cursor: not-allowed;
 }
 
-/* Apply styles to the button within the template */
+
 .styled-button {
   background-color: darkcyan;
   color: white;
