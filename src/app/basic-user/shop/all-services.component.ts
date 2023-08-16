@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ApplicationServiceAndUserResponse} from "../../dto/ApplicationServiceAndUserResponse";
-import {BasicUserService} from "../../services/basic-user.service";
+import {BasicUserService} from "../basic-user.service";
 import {NewBookingCommand} from "../../dto/NewBookingCommand";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {MessageService} from "primeng/api";
@@ -20,7 +20,6 @@ export class AllServicesComponent implements OnInit {
   };
 
   showModal!: boolean;
-  // Variables to store user input
   newBooking: FormGroup;
 
   newBookingCommand = {} as NewBookingCommand;
@@ -44,7 +43,6 @@ export class AllServicesComponent implements OnInit {
     this.newBookingCommand.notes = this.newBooking.value.notes;
     this.newBookingCommand.date_time = this.newBooking.value.date_time;
 
-    // Call the service to create the new booking
     this.userService.createBooking(this.newBookingCommand).subscribe(
       () => {
         this.messageService.add({severity: 'info', summary: 'Booking created'});

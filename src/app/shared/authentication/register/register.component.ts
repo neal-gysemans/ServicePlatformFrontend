@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../security/auth.service';
+import { AuthService } from '../../../security/auth.service';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MessageService} from "primeng/api";
 import {Router} from "@angular/router";
@@ -61,7 +61,6 @@ export class RegisterComponent {
         );
       },
       (error) => {
-        console.log(error)
         if(error.status === 409){
           this.messageService.add({
             severity: 'error',

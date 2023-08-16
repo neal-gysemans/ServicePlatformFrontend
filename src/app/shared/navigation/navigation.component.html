@@ -112,7 +112,7 @@
         <li *ngIf="!isUserLoggedIn()">
           <a
             (click)="onHamburgerItemClick()"
-            routerLink="/login"
+            routerLink="/auth/login"
             routerLinkActive="active"
             [routerLinkActiveOptions]="{ exact: true }"
             class="block py-2 pr-4 pl-3 rounded"
@@ -124,7 +124,7 @@
         <li *ngIf="!isUserLoggedIn()">
           <a
             (click)="onHamburgerItemClick()"
-            routerLink="/register"
+            routerLink="/auth/register"
             routerLinkActive="active"
             [routerLinkActiveOptions]="{ exact: true }"
             class="block py-2 pr-4 pl-3 rounded"
